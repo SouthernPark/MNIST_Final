@@ -15,5 +15,5 @@ EXPOSE 80
 
 
 # Run app.py when the container launches
-CMD ["FLASK_APP=upload_file.py", "flask run"]
+CMD ["python", "upload_file.app"]
 
