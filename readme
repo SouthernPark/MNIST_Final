@@ -1,9 +1,20 @@
+MIT Remote Course
+Last winter holiday, I joined a MIT Big Data Remote Course to do some research. The final purpose of this course is to build up a website which can let user upload a handwriting picture of number (what I said is something about MNIST). After uploading the picture, the website can return what the number is and store the result in Cassandra which is a database. Many steps are needed to finish this work.
+
+Firstly, I use Python and Flask to build up a website. This website has a connection with my computer through 7000 port. Therefore, users can post a picture to the website and my computer can get this picture. 
+
+Secondly, to recognize a handwriting picture, I have to learn TensorFlow. To be honest, I don’t have the ability to write the entire code, but I know I can learn from others. I find someone’s MNIST code from GitHub and change something to meet my requirements. However, I still know a few things about how it works. The pictures are in the format of 28*28 pixels. So we can produce a 28*28 matrix whose elements are a float between 0 and each element represents the darkness of that pixel. By using the MNIST train sets, I can train my model and produce a model with approximately 100% accuracy. After that, I can use the model to recognize the picture. 
+
+Finally, the teacher asked me to encapsulate those codes using Docker. Docker can be thought as a small scale virtual machine, which is very useful for dealing specific purpose problem. I put the website and data base into Docker and Docker is connected with the website through 7000 port. My computer is connected with docker through 80 port. By doing this, my python code can run in the Docker rather than in my Ubuntu Operating System. What is more, the images (a terminology) produced by Docker can running on every Operating system which is very convenient.
+
+
 程序思路：
 upload_file.py是主函数，最开始运行upload_file.py文件。
 运行后会产生flask网页，用于接收并储存用户上传的手写体图片（储存在upload_picture文件夹中）。
 之后upload_file文件会调用test.py文件中的classify()函数，用于检验刚才在upload_picture文件夹中的手写体图片（检测过程中会用到SAVE文件夹中的模型）。函数的返回识别后的结果，并将结果显示在网页上。之后作为主函数的upload_file.py会通过调用cassandra_app.py中的insert（）函数将数据插入到cassandra数据库当中。
 
 然后就是放进docker当中，利用Dockerfile文件产生镜像，利用readme文件下载docker镜像所需要的包.
+
 
 problem:
 使用docker run -p 4000:80 mnist 创建container
@@ -18,7 +29,7 @@ https://stackoverflow.com/questions/30209776/docker-container-will-automatically
 
 http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/  （看该网址主要是感觉自己的Dockerfile可能有点问题，但就是找不出问题）
 
-希望老师能给我一些解决问题的建议。（老师要是忙的话过几天也行，反正我也不急）
+解决方式: python调用主函数。
 
 
 
