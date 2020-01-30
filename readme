@@ -31,6 +31,6 @@ http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/  （看该网址主要�
 
 解决方式: python调用主函数。
 
-
+运行docker image时候一定要做好端口映射 docker run -p 80:80 mnist
 
 
