@@ -8,29 +8,5 @@ Secondly, to recognize a handwriting picture, I have to learn TensorFlow. To be 
 Finally, the teacher asked me to encapsulate those codes using Docker. Docker can be thought as a small scale virtual machine, which is very useful for dealing specific purpose problem. I put the website and data base into Docker and Docker is connected with the website through 7000 port. My computer is connected with docker through 80 port. By doing this, my python code can run in the Docker rather than in my Ubuntu Operating System. What is more, the images (a terminology) produced by Docker can running on every Operating system which is very convenient..
 
 
-程序思路：
-upload_file.py是主函数，最开始运行upload_file.py文件。
-运行后会产生flask网页，用于接收并储存用户上传的手写体图片（储存在upload_picture文件夹中）。
-之后upload_file文件会调用test.py文件中的classify()函数，用于检验刚才在upload_picture文件夹中的手写体图片（检测过程中会用到SAVE文件夹中的模型）。函数的返回识别后的结果，并将结果显示在网页上。之后作为主函数的upload_file.py会通过调用cassandra_app.py中的insert（）函数将数据插入到cassandra数据库当中。
-
-然后就是放进docker当中，利用Dockerfile文件产生镜像，利用readme文件下载docker镜像所需要的包.
-
-
-problem:
-使用docker run -p 4000:80 mnist 创建container
-产生的container会在一瞬间小时，没有产生flask网页。
-docker logs container_id 查找问题原因，结果什么都没有返回
-
-在网上找了几个可能的答案，但研究了很久都没有搞明白。
-
-https://webkul.com/blog/docker-container-will-automatically-stop-run/  （该博主的问题和我的非常相似，但他用的不是python 因此Dockerfile中的指令有很大不同 我不能理解）
-
-https://stackoverflow.com/questions/30209776/docker-container-will-automatically-stop-after-docker-run-d （该网页提出了用run -it -d <image> /bin/bash 维持container防止其自动stop。 使用该代码后确实达到了container不瞬间小时的目的，但却不能引发flask显示网址的操作（即没有出现 * Running on http://127.0.0.1:5000/之类的代码）。 之后又尝试使用docker attach container_id 进入该docker container，然后运行export FLASK_APP=upload_file.py以及flask run。 惊奇的是 flask网页出现了，Running on http://127.0.0.1:5000/，但是在我将http://127.0.0.1:5000/改成http://127.0.0.1:4000/（端口是0.0.0.0：4000：80）之后，无法显示网页，我又试了试很多其他的端口，但结果还是一样。 Amazing）
-
-http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/  （看该网址主要是感觉自己的Dockerfile可能有点问题，但就是找不出问题）
-
-解决方式: python调用主函数。
-
-运行docker image时候一定要做好端口映射 docker run -p 80:80 mnist
 
 
